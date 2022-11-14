@@ -77,11 +77,14 @@ jobs:
       - name: install-wasm32
         run: rustup target add wasm32-unknown-unknown
         #run: sudo apt install wasmcloud wash
-      - name: make
+      - name: make build
         working-directory: ./templates
         run: |
           ls
           make reg_host=${{ job.services.registry.ports['5000'] }} build
+      # - name: make start
+      #   working-directory: ./templates
+      #   run: make reg_host=${{ job.services.registry.ports['5000'] }} start
       # - name: Collect docker logs on failure
       #   uses: jwalton/gh-docker-logs@v1
       #   with:
@@ -126,7 +129,7 @@ jobs:
       # - name: sleep
       #   run: |
       #     bash sleep.sh 20m
-      
+
       # - name: download_wasmcloud_host
       #   run: wget -c https://github.com/wasmCloud/wasmcloud-otp/releases/download/v0.50.3/x86_64-linux.tar.gz -O - | tar -xz
       # - name: ls
