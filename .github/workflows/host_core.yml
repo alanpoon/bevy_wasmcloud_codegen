@@ -41,7 +41,7 @@ jobs:
             ~/.cargo/git/db/
             template/target/
             template/www/target/
-          key: ${{ runner.os }}-cargo1-${{ hashFiles('**/Cargo.lock') }}
+          key: ${{ runner.os }}-cargo1-${{ hashFiles('templates/Cargo.lock') }}-${{ hashFiles('templates/www/Cargo.lock') }}
       - uses: actions/cache@v2
         id: cargo-bin-cache
         with:
@@ -82,9 +82,9 @@ jobs:
         run: |
           ls
           make reg_host=${{ job.services.registry.ports['5000'] }} build
-      - name: make start
-        working-directory: ./templates
-        run: make reg_host=${{ job.services.registry.ports['5000'] }} start
+      # - name: make start
+      #   working-directory: ./templates
+      #   run: make reg_host=${{ job.services.registry.ports['5000'] }} start
       # - name: Collect docker logs on failure
       #   uses: jwalton/gh-docker-logs@v1
       #   with:
