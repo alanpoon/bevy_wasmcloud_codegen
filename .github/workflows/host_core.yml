@@ -82,6 +82,8 @@ jobs:
         run: |
           ls
           make reg_host=${{ job.services.registry.ports['5000'] }} build
+      - name: cat host
+        run: cat host_config.json
       - name: make start
         working-directory: ./templates
         run: make reg_host=${{ job.services.registry.ports['5000'] }} start
