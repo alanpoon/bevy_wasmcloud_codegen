@@ -1,6 +1,5 @@
 target
 Cargo.lock
 build
-test
 dist
 nohup.out

@@ -77,58 +77,58 @@ jobs:
       - name: install-wasm32
         run: rustup target add wasm32-unknown-unknown
         #run: sudo apt install wasmcloud wash
-      # - name: make
-      #   working-directory: ./templates
-      #   run: |
-      #     ls
-      #     make reg_host=${{ job.services.registry.ports['5000'] }} build
-      # - name: Collect docker logs on failure
-      #   uses: jwalton/gh-docker-logs@v1
-      #   with:
-      #     images: 'wasmcloud/wasmcloud_host:latest'
-      #     dest: './logs'
-      # - name: Tar logs
-      #   run: tar cvzf ./logs.tgz ./logs
-      # - name: Upload logs to GitHub
-      #   uses: actions/upload-artifact@master
-      #   with:
-      #     name: logs.tgz
-      #     path: ./logs.tgz
-      # - name: wash
-      #   run: wash ctl get hosts
-      # - name: kill
-      #   run: sudo netstat -ltnup | grep ':4000'
-      # - name: build_ui
-      #   uses: marcopolo/cargo@master
-      #   with:
-      #     command: make
-      #     args: wasm-bindgen
-      #     working-directory: ./templates/www
-      # - name: serve_ui
-      #   working-directory: ./templates/www
-      #   run: cargo make wasm-serve2
-      # - name: ngrok install
-      #   run: |
-      #     curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null &&
-      #     echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | sudo tee /etc/apt/sources.list.d/ngrok.list &&
-      #     sudo apt update && sudo apt install ngrok   
-      # - name: save authtoken
-      #   run: |
-      #     ngrok authtoken ${{ secrets.NGROK_AUTHTOKEN }}
-      # - name: start ngrok
-      #   run: |
-      #     ngrok http 4001 --log=stdout > ngrok.log &
-      # - name: sleep
-      #   run: |
-      #     bash sleep.sh 10s
-      # - name: ngrok
-      #   run: cat ngrok.log
-      # - name: sleep
-      #   run: |
-      #     bash sleep.sh 20m
-      # # - name: download_wasmcloud_host
-      # #   run: wget -c https://github.com/wasmCloud/wasmcloud-otp/releases/download/v0.50.3/x86_64-linux.tar.gz -O - | tar -xz
-      # # - name: ls
-      # #   run: ls bin
-      # # - name: run
-      # #   run: WASMCLOUD_CLUSTER_SEED=SCABKLLO4OZAT4WERZ2BC4NDFHNUJO6WOGHVG4JLKPFUVJLHAP4WQWWSJ4 WASMCLOUD_CLUSTER_ISSUERS=CBLXC6GW777ZB4EZBVDWJ7AJHA5R4TIN7GQC32XMCDA4NIPQQTPY3SVP WASMCLOUD_OCI_ALLOWED_INSECURE=localhost:5000 ./bin/wasmcloud_host
+      - name: make
+        working-directory: ./templates
+        run: |
+          ls
+          make reg_host=${{ job.services.registry.ports['5000'] }} build
+      - name: Collect docker logs on failure
+        uses: jwalton/gh-docker-logs@v1
+        with:
+          images: 'wasmcloud/wasmcloud_host:latest'
+          dest: './logs'
+      - name: Tar logs
+        run: tar cvzf ./logs.tgz ./logs
+      - name: Upload logs to GitHub
+        uses: actions/upload-artifact@master
+        with:
+          name: logs.tgz
+          path: ./logs.tgz
+      - name: wash
+        run: wash ctl get hosts
+      - name: kill
+        run: sudo netstat -ltnup | grep ':4000'
+      - name: build_ui
+        uses: marcopolo/cargo@master
+        with:
+          command: make
+          args: wasm-bindgen
+          working-directory: ./templates/www
+      - name: serve_ui
+        working-directory: ./templates/www
+        run: cargo make wasm-serve2
+      - name: ngrok install
+        run: |
+          curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null &&
+          echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | sudo tee /etc/apt/sources.list.d/ngrok.list &&
+          sudo apt update && sudo apt install ngrok   
+      - name: save authtoken
+        run: |
+          ngrok authtoken ${{ secrets.NGROK_AUTHTOKEN }}
+      - name: start ngrok
+        run: |
+          ngrok http 4001 --log=stdout > ngrok.log &
+      - name: sleep
+        run: |
+          bash sleep.sh 10s
+      - name: ngrok
+        run: cat ngrok.log
+      - name: sleep
+        run: |
+          bash sleep.sh 20m
+      # - name: download_wasmcloud_host
+      #   run: wget -c https://github.com/wasmCloud/wasmcloud-otp/releases/download/v0.50.3/x86_64-linux.tar.gz -O - | tar -xz
+      # - name: ls
+      #   run: ls bin
+      # - name: run
+      #   run: WASMCLOUD_CLUSTER_SEED=SCABKLLO4OZAT4WERZ2BC4NDFHNUJO6WOGHVG4JLKPFUVJLHAP4WQWWSJ4 WASMCLOUD_CLUSTER_ISSUERS=CBLXC6GW777ZB4EZBVDWJ7AJHA5R4TIN7GQC32XMCDA4NIPQQTPY3SVP WASMCLOUD_OCI_ALLOWED_INSECURE=localhost:5000 ./bin/wasmcloud_host
