@@ -78,7 +78,10 @@ jobs:
         run: rustup target add wasm32-unknown-unknown
         #run: sudo apt install wasmcloud wash
       - name: make
-        run: make reg_host=${{ job.services.registry.ports['5000'] }} build
+        working-directory: ./templates
+        run: |
+          ls
+          make reg_host=${{ job.services.registry.ports['5000'] }} build
       - name: Collect docker logs on failure
         uses: jwalton/gh-docker-logs@v1
         with:
