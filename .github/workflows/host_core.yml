@@ -68,7 +68,7 @@ jobs:
             which wash
             ls ~
           fi
-          wasm-bindgen --version || { cargo install -f wasm-bindgen-cli --vers 0.2.78;}
+          wasm-bindgen --version || { cargo install -f wasm-bindgen-cli --vers 0.2.83;}
           cargo make --version || { cargo install -f cargo-make;}
           basic-http-server --version || { cargo install -f basic-http-server;}
           wasm-snip --version || { cargo install -f wasm-snip;}
