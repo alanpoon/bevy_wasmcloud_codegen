@@ -30,7 +30,7 @@ jobs:
         run: |
           bash install_wasmcloud.sh
           ls
-          WASMCLOUD_HOST_SEED=SNAKDMBLB7TPIL4K3YXDGLUDXYFEEB2UAUXSAJYFBUKAWXBT6VPSTSE34Y WASMCLOUD_OCI_ALLOWED_INSECURE=localhost:5000 ./bin/wasmcloud_host start
+          nohup WASMCLOUD_HOST_SEED=SNAKDMBLB7TPIL4K3YXDGLUDXYFEEB2UAUXSAJYFBUKAWXBT6VPSTSE34Y WASMCLOUD_OCI_ALLOWED_INSECURE=localhost:5000 ./bin/wasmcloud_host start
 
       - uses: actions/cache@v2
         id: cargo-cache
@@ -39,8 +39,8 @@ jobs:
             ~/.cargo/registry/index/
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
-            target/
-            nat-example/target/
+            template/target/
+            template/www/target/
           key: ${{ runner.os }}-cargo1-${{ hashFiles('**/Cargo.lock') }}
       - uses: actions/cache@v2
         id: cargo-bin-cache
@@ -54,7 +54,7 @@ jobs:
       - name: cargo/bin
         run: ls ~/.cargo/bin/
       - name: ls
-        run: ls nat-example
+        run: ls templates/www
       - name: source profile
         run: echo "$HOME/.cargo/bin" >> $GITHUB_PATH
          
@@ -100,15 +100,10 @@ jobs:
         with:
           command: make
           args: wasm-bindgen
-          working-directory: ./nat-example
-      - name: webpack
-        working-directory: ./nat-example
-        run: npm run build
-      - name: cp assets
-        run: cp -r nat-example/assets nat-example/public
+          working-directory: ./templates/www
       - name: serve_ui
-        working-directory: ./nat-example
-        run: nohup basic-http-server public -a 127.0.0.1:4001 >> nohup.out 2>&1 &
+        working-directory: ./templates/www
+        run: cargo make wasm-serve2
       - name: ngrok install
         run: |
           curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null &&
