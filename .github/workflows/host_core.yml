@@ -85,12 +85,12 @@ jobs:
           ls
           make reg_host=${{ job.services.registry.ports['5000'] }} build
 
-      - name: make start
-        working-directory: ./templates
-        run: make reg_host=${{ job.services.registry.ports['5000'] }} start
-      - name: cat logs
-        working-directory: ./templates
-        run: cat nohup.out
+      # - name: make start
+      #   working-directory: ./templates
+      #   run: make reg_host=${{ job.services.registry.ports['5000'] }} start
+      # - name: cat logs
+      #   working-directory: ./templates
+      #   run: cat nohup.out
       # - name: Collect docker logs on failure
       #   uses: jwalton/gh-docker-logs@v1
       #   with:
