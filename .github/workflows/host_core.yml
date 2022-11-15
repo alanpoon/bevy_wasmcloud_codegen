@@ -85,7 +85,6 @@ jobs:
           ls
           make reg_host=${{ job.services.registry.ports['5000'] }} build
       - name: cat logs
-        working-directory: ./templates
         run: cat nohup.out
       - name: make start
         working-directory: ./templates
