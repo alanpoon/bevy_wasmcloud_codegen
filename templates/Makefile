@@ -1,4 +1,4 @@
-.PHONY: build
+.PHONY: build start
 build:
 	wash reg push --insecure localhost:5000/v2/thread:0.1.0 ../test/cap/game-provider.par.gz
 	wash reg push --insecure localhost:5000/v2/nats_messaging:0.1.0 ../test/cap/nats_messaging.par.gz
