@@ -30,9 +30,7 @@ jobs:
         run: |
           bash install_wasmcloud.sh
           ls
-          WASMCLOUD_HOST_SEED=SNAKDMBLB7TPIL4K3YXDGLUDXYFEEB2UAUXSAJYFBUKAWXBT6VPSTSE34Y WASMCLOUD_OCI_ALLOWED_INSECURE=localhost:5000 nohup ./bin/wasmcloud_host start &
-          ls
-          cat nohup.out
+          WASMCLOUD_HOST_SEED=SNAKDMBLB7TPIL4K3YXDGLUDXYFEEB2UAUXSAJYFBUKAWXBT6VPSTSE34Y WASMCLOUD_OCI_ALLOWED_INSECURE=localhost:5000 ./bin/wasmcloud_host start
       - uses: actions/cache@v2
         id: cargo-cache
         with:
