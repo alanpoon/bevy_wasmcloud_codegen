@@ -23,3 +23,7 @@ CALL_ALIAS = game_logic2
 # If you built it from source, get the provider id with `make inspect` in the source folder
 MESSAGING_PROVIDER_ID = VADNMSIML2XGO2X4TPIONTIC55R2UUQGPPDZPAVSC2QD7E76CR77SPW7
 THREAD_PROVIDER_ID = VBYISBTQPDQOMMEWQN3Q6HMYNAIEBF6HAJQOTTCV5IU4KAQRXDVLTJFZ
+
+start-thread:
+	@wash call -o json $(ACTOR_ID) --cluster-seed SCALV3N2M5JRUOCSLTRTAIQYJSBKNZ3XMGME2XI3L3OSR2RRSYUTMHAN7E Thread.StartThread \
+		'{"game_id":"hello","sleep_interval":30}'
