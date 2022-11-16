@@ -48,7 +48,7 @@ jobs:
       - name: install wasm-cloud
         run: |
           bash install_wasmcloud.sh
-          WASMCLOUD_HOST_SEED=SNAKDMBLB7TPIL4K3YXDGLUDXYFEEB2UAUXSAJYFBUKAWXBT6VPSTSE34Y WASMCLOUD_OCI_ALLOWED_INSECURE=localhost:5000 nohup ./bin/wasmcloud_host start > program.out &
+          WASMCLOUD_HOST_SEED=SNAKDMBLB7TPIL4K3YXDGLUDXYFEEB2UAUXSAJYFBUKAWXBT6VPSTSE34Y WASMCLOUD_OCI_ALLOWED_INSECURE=localhost:5000 nohup ./bin/wasmcloud_host start > program.out 2>&1 &
           ls
           cat program.out
       - uses: actions/cache@v2
