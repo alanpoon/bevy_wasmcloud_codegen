@@ -21,7 +21,7 @@ jobs:
       nats:
         image: nats:latest
         options: >-
-          -js
+          --js
         ports:
           - "4223:4223"
           - "7083:7083"
