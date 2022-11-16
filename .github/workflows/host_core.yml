@@ -18,19 +18,38 @@ jobs:
         image: registry:2.7
         ports:
           - 5000:5000
+      nats:
+        image: nats:latest
+        options: >-
+          -js
+        ports:
+          - "4223:4223"
+          - "7083:7083"
+      wasmcloud:
+        image: wasmcloud/wasmcloud_host:latest
+        env:
+          WASMCLOUD_RPC_HOST: nats
+          WASMCLOUD_CTL_HOST: nats
+          WASMCLOUD_PROV_RPC_HOST: nats
+          WASMCLOUD_CLUSTER_ISSUERS: CBLXC6GW777ZB4EZBVDWJ7AJHA5R4TIN7GQC32XMCDA4NIPQQTPY3SVP
+          WASMCLOUD_OCI_ALLOWED_INSECURE: localhost:5000
+          WASMCLOUD_HOST_SEED: SNAKDMBLB7TPIL4K3YXDGLUDXYFEEB2UAUXSAJYFBUKAWXBT6VPSTSE34Y
+        ports:
+          - "4000:4000"
+          - "8080-8083:8080-8083" # Allows exposing examples on ports 8080-8089
     steps:
       - uses: actions/checkout@v2
         with:
           submodules: recursive
-      - id: run-nats
-        uses: wasmcloud/common-actions/run-nats@main
-        with:
-          options: '-js'
-      - name: install wasm-cloud
-        run: |
-          bash install_wasmcloud.sh
-          ls
-          WASMCLOUD_HOST_SEED=SNAKDMBLB7TPIL4K3YXDGLUDXYFEEB2UAUXSAJYFBUKAWXBT6VPSTSE34Y WASMCLOUD_OCI_ALLOWED_INSECURE=localhost:5000 ./bin/wasmcloud_host start
+      # - id: run-nats
+      #   uses: wasmcloud/common-actions/run-nats@main
+      #   with:
+      #     options: '-js'
+      # - name: install wasm-cloud
+      #   run: |
+      #     bash install_wasmcloud.sh
+      #     ls
+      #     WASMCLOUD_HOST_SEED=SNAKDMBLB7TPIL4K3YXDGLUDXYFEEB2UAUXSAJYFBUKAWXBT6VPSTSE34Y WASMCLOUD_OCI_ALLOWED_INSECURE=localhost:5000 ./bin/wasmcloud_host start
       - uses: actions/cache@v2
         id: cargo-cache
         with:
