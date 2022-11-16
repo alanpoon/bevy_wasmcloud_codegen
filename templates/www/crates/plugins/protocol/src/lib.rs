@@ -67,7 +67,7 @@ impl Plugin for ProtocolPlugin {
                     .after(ProtocolSystem::ReceiveEvents)
                     .before(ProtocolSystem::SendCommands),
             )
-            .add_system(system::camera::move_with_local_player)
+            //.add_system(system::camera::move_with_local_player)
             .add_system(
                 send_commands
                     .label(ProtocolSystem::SendCommands)

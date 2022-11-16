@@ -1,5 +1,5 @@
 use bevy::math::Vec2;
-
+use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 use nats_lite::nats;
 use protocol::Command;
@@ -33,6 +33,7 @@ pub fn target_velocity(
         reply_to: None,
         payload: tv_,
     };
+    info!("vel,{:?} t_v {:?}",vel,t_v.clone());
     update::target_velocity::velocity(vel, t_v.clone());
     vec![
         Command::Nats(String::from("default"), n1),

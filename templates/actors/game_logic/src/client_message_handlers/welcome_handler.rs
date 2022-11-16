@@ -23,15 +23,19 @@ pub async fn _fn (map:Arc<Mutex<App>>,game_id:String,ball_id:BallId,ball_label:B
       locked_axes:LockedAxes::ROTATION_LOCKED,
       interpolated:TransformInterpolation::default()
     };
+    info_(format!("after welcome ball_bundle {:?}",ball_bundle));
     {
       let guard = match map.lock() {
         Ok(guard) => guard,
         Err(poisoned) => {
+          info_(format!("poisoned {:?}",poisoned));
           poisoned.into_inner()
         },
       };
-      let mut app = guard;      
+      let mut app = guard;
+      info_(format!("pre spawn"));
       spawn(&mut app.world,ball_bundle.clone());
+      info_(format!("post spawn"));
       let server_message = ServerMessage::Welcome{ball_bundle};
       match rmp_serde::to_vec(&server_message){
         Ok(b)=>{
@@ -44,10 +48,9 @@ pub async fn _fn (map:Arc<Mutex<App>>,game_id:String,ball_id:BallId,ball_label:B
         }
         _=>{}
       }
-      
+      info_(format!("welcome ball_bundles "));
+
       let mut ball_bundles =vec![];
-      let time = app.world.get_resource::<Time>().unwrap();
-      let time_clone = time.clone();
       let mut query = app.world.query::<(&BallId,&BallLabel,&Transform, &Velocity)>();
       for (gball_id,ball_label,transform,velocity) in query.iter(&app.world){
         if gball_id.0!=ball_id.0{//don't send yourself
@@ -57,7 +60,9 @@ pub async fn _fn (map:Arc<Mutex<App>>,game_id:String,ball_id:BallId,ball_label:B
             locked_axes:LockedAxes::ROTATION_LOCKED,
             interpolated:TransformInterpolation::default()});
         }
-      }     
+      }
+      info_(format!("welcome channel_message_back"));
+
       let channel_message_back = ServerMessage::GameState{ball_bundles:ball_bundles};
       match rmp_serde::to_vec(&channel_message_back){
         Ok(b)=>{

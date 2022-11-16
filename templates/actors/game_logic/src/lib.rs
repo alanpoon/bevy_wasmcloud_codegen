@@ -68,6 +68,7 @@ impl MessageSubscriber for GameLogicActor{
       match client_message{
         Ok(ClientMessage::TargetVelocity{game_id,ball_id,target_velocity})=>{
           let map = APP.clone();
+          info!("pre targetv{:?}",target_velocity);
           client_message_handlers::target_velocity_handler::_fn(map,game_id,ball_id,target_velocity);  
         }
         Ok(ClientMessage::Welcome{game_id,ball_id,ball_label})=>{
