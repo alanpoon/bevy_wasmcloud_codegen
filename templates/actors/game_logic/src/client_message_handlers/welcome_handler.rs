@@ -10,9 +10,8 @@ use std::sync::{Arc, Mutex};
 use wasmbus_rpc::actor::prelude::*;
 use wasmcloud_interface_numbergen::random_in_range;
 pub async fn _fn (map:Arc<Mutex<App>>,game_id:String,ball_id:BallId,ball_label:BallLabel)-> RpcResult<()>{
-    let x = random_in_range(3300,3800).await? as f32;
-    let y = random_in_range(3500,3800).await? as f32;
-    info_(format!("welcome ball_id {:?}",ball_id));
+    let x = random_in_range(0,300).await? as f32;
+    let y = random_in_range(0,300).await? as f32;
     let ball_bundle = BallBundle{
       ball_id:ball_id,
       ball_label:ball_label.clone(),
@@ -23,7 +22,6 @@ pub async fn _fn (map:Arc<Mutex<App>>,game_id:String,ball_id:BallId,ball_label:B
       locked_axes:LockedAxes::ROTATION_LOCKED,
       interpolated:TransformInterpolation::default()
     };
-    info_(format!("after welcome ball_bundle {:?}",ball_bundle));
     {
       let guard = match map.lock() {
         Ok(guard) => guard,
@@ -33,9 +31,7 @@ pub async fn _fn (map:Arc<Mutex<App>>,game_id:String,ball_id:BallId,ball_label:B
         },
       };
       let mut app = guard;
-      info_(format!("pre spawn"));
       spawn(&mut app.world,ball_bundle.clone());
-      info_(format!("post spawn"));
       let server_message = ServerMessage::Welcome{ball_bundle};
       match rmp_serde::to_vec(&server_message){
         Ok(b)=>{
@@ -48,8 +44,6 @@ pub async fn _fn (map:Arc<Mutex<App>>,game_id:String,ball_id:BallId,ball_label:B
         }
         _=>{}
       }
-      info_(format!("welcome ball_bundles "));
-
       let mut ball_bundles =vec![];
       let mut query = app.world.query::<(&BallId,&BallLabel,&Transform, &Velocity)>();
       for (gball_id,ball_label,transform,velocity) in query.iter(&app.world){
@@ -61,7 +55,6 @@ pub async fn _fn (map:Arc<Mutex<App>>,game_id:String,ball_id:BallId,ball_label:B
             interpolated:TransformInterpolation::default()});
         }
       }
-      info_(format!("welcome channel_message_back"));
 
       let channel_message_back = ServerMessage::GameState{ball_bundles:ball_bundles};
       match rmp_serde::to_vec(&channel_message_back){
